@@ -2,154 +2,641 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furkan Sağsoyu</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="img/favico.png" type="image/x-icon">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Furkan Sağsoyu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f7fc;
+      --grid: #d3deee;
+      --ink: #0b1f3a;
+      --muted: #4b5f7d;
+      --line: #9fb3d1;
+      --accent: #c2410c;
+      --panel: #e6eef9;
+      --node: #0b1f3a;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0a1a33;
+        --grid: #132a4d;
+        --ink: #e6f0ff;
+        --muted: #9db3d6;
+        --line: #2c4a7a;
+        --accent: #ffb020;
+        --panel: #0f2444;
+        --node: #8fb8ff;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0a1a33;
+      --grid: #132a4d;
+      --ink: #e6f0ff;
+      --muted: #9db3d6;
+      --line: #2c4a7a;
+      --accent: #ffb020;
+      --panel: #0f2444;
+      --node: #8fb8ff;
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px);
+      scroll-behavior: smooth
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-attachment: fixed
+    }
+
+    a {
+      color: var(--accent)
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px
+    }
+
+    .wrap {
+      max-width: 66rem;
+      margin: 0 auto;
+      padding: 0 1.5rem
+    }
+
+    nav {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line)
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding-top: .9rem;
+      padding-bottom: .9rem;
+      flex-wrap: wrap
+    }
+
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    nav .links {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap
+    }
+
+    nav a:hover {
+      color: var(--accent)
+    }
+
+    .hero {
+      position: relative;
+      min-height: 34rem;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden
+    }
+
+    #net {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    .hero .wrap {
+      position: relative;
+      padding-top: 5rem;
+      padding-bottom: 4rem;
+      pointer-events: none
+    }
+
+    .hero .wrap>* {
+      pointer-events: auto
+    }
+
+    h1 {
+      font-stretch: 125%;
+      font-weight: 800;
+      font-size: clamp(2.75rem, 10.5vw, 7.5rem);
+      line-height: .95;
+      letter-spacing: -.03em;
+      margin: 0 0 1.5rem;
+      animation: rise .9s cubic-bezier(.2, .7, .2, 1) both
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(1.25rem)
+      }
+    }
+
+    .lede {
+      max-width: 32rem;
+      font-size: 1.25rem;
+      margin: 0 0 2rem;
+      background: var(--bg);
+      display: inline-block;
+      padding: .25rem .5rem .25rem 0
+    }
+
+    .btns {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid var(--ink);
+      color: var(--ink);
+      background: var(--bg)
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0a1a33
+    }
+
+    .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--ink)
+    }
+
+    section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--line)
+    }
+
+    h2 {
+      font-stretch: 125%;
+      font-weight: 800;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      letter-spacing: -.02em;
+      margin: 0 0 .5rem
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 2.5rem;
+      max-width: 36rem
+    }
+
+    .spec {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: 0;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      margin-bottom: 2.5rem
+    }
+
+    .spec div {
+      padding: 1rem 1.25rem;
+      border-right: 1px solid var(--line)
+    }
+
+    .spec div:last-child {
+      border-right: 0
+    }
+
+    .spec b {
+      display: block;
+      font-size: 1.15rem
+    }
+
+    .spec span {
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    .proj {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr))
+    }
+
+    .card {
+      background: var(--bg);
+      border: 2px solid var(--ink);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform .15s, box-shadow .15s
+    }
+
+    .card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--accent)
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-stretch: 112%
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    .card dl {
+      margin: auto 0 0;
+      padding-top: .75rem;
+      border-top: 1px dashed var(--line);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .2rem 1rem;
+      font-size: .95rem
+    }
+
+    .card dt {
+      color: var(--muted)
+    }
+
+    .card dd {
+      margin: 0;
+      font-weight: 600
+    }
+
+    .tl {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 0 1.75rem;
+      border-left: 2px solid var(--accent)
+    }
+
+    .tl li {
+      position: relative;
+      padding-bottom: 2rem
+    }
+
+    .tl li::before {
+      content: "";
+      position: absolute;
+      left: calc(-1.75rem - 7px);
+      top: .5rem;
+      width: 12px;
+      height: 12px;
+      background: var(--accent)
+    }
+
+    .tl .when {
+      color: var(--muted);
+      font-size: .95rem
+    }
+
+    .tl h3 {
+      margin: .1rem 0;
+      font-size: 1.2rem
+    }
+
+    .tl p {
+      margin: 0;
+      max-width: 40rem
+    }
+
+    .langs {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr))
+    }
+
+    .langs li {
+      background: var(--bg);
+      border: 2px solid var(--ink);
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .75rem;
+      font-weight: 700;
+      transition: transform .15s, box-shadow .15s
+    }
+
+    .langs li:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 5px 5px 0 var(--accent)
+    }
+
+    .langs svg {
+      width: 56px;
+      height: 56px
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .langs li {
+        transition: none
+      }
+    }
+
+    .contact .big {
+      display: block;
+      font-stretch: 100%;
+      font-weight: 800;
+      font-size: clamp(1rem, 4.0vw, 2rem);
+      letter-spacing: -.02em;
+      word-break: break-word;
+      margin: 1rem 0
+    }
+
+    .contact p {
+      max-width: 34rem;
+      color: var(--muted)
+    }
+
+    .social {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap
+    }
+
+    .social a {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .65rem 1rem;
+      border: 2px solid var(--ink);
+      background: var(--bg);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700
+    }
+
+    .social a:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--accent);
+      color: var(--accent);
+      border-color: var(--accent)
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+      font-size: .95rem
+    }
+
+    @media (max-width:40rem) {
+      .spec div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+      }
+
+      .spec div:last-child {
+        border-bottom: 0
+      }
+
+      .hero .wrap {
+        padding-top: 3rem
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      h1 {
+        animation: none
+      }
+
+      html {
+        scroll-behavior: auto
+      }
+
+      .card,
+      .btn {
+        transition: none
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="head">
-        <img src="img/headlogo.png" alt="">
-        <nav>
-            <ul>
-                <li><a id="href1" onclick="scroolStyle(this.id)">Ana Sayfa</a></li>
-                <li><a id="href2" onclick="scroolStyle(this.id)">Hakkımda</a></li>
-                <li><a id="href3" onclick="scroolStyle(this.id)">Sertifika</a></li>
-                <li><a id="href4" onclick="scroolStyle(this.id)">Projeler</a></li>
-                <li><a id="href5" onclick="scroolStyle(this.id)">İletişim</a></li>
-            </ul>
-        </nav>
+  <nav>
+    <div class="wrap">
+      <a href="#top">Furkan Sağsoyu</a>
+      <div class="links"><a href="#projects">Projeler</a><a href="#languages">Diller</a><a
+          href="#education">Eğitim</a><a href="#contact">İletişim</a></div>
     </div>
-    <header id="menu"></header>
-    <div class="article-1" id="hakkımda">
-        <div class="display">Hakkımda</div>
-        <div class="split">
-            <img src="img/logo.png" alt="" class="img">
-            <div class="caption">
-                <h3>Merhaba. Ben Furkan Sağsoyu. Tokat Gaziosmanpaşa Üniversitesi Bilgisayar Mühendisliği 2.Sınıf
-                    öğrencisiyim.Özellikle Java, C#, JavaScript ve Python gibi teknolojilere odaklanıyorum.
-                    Yakın gelecekte, bu alanlarda uzmanlaşarak sektöre adım atmayı ve kariyerime bilgisayar mühendisi
-                    olarak başlamayı
-                    hedefliyorum. Teknolojideki yenilikleri takip etmek ve kendimi sürekli geliştirmek için çaba
-                    göstermeye devam edeceğim.
-                    İlgili her türlü fırsatı değerlendirmek ve sektördeki deneyimli profesyonellerle iletişim kurmak
-                    için sabırsızlanıyorum.
-                    Bağlantı kurarak, teknoloji dünyasındaki değişimleri paylaşan ve işbirliği yapmaktan keyif alan
-                    herkesle tanışmayı
-                    umuyorum.</h3>
-            </div>
-        </div>
-    </div>
-    <div class="article-2" id="sertifika">
-        <div class="display">Sertifikalar</div>
-        <div class="sertifikalar">
-            <div class="sertifika">
-                <img src="img/kodluyoruz_logo.jpg" alt="kodluyoruz.org">
-                <a href="https://verified.sertifier.com/tr/verify/97702719135518/">IBM ile Kodluyoruz: CyberStart</a>
-            </div>
-            <div class="sertifika">
-                <img src="img/patikadev_logo.jpg" alt="patika.dev">
-                <a href="https://academy.patika.dev/tr/certificates/de814970">Başlangıç Seviye Frontend Web Development
-                    Patikası
-                </a>
-            </div>
-            <div class="sertifika">
-                <img src="img/gop_logo.jpg" alt="gop">
-                <a href="">Unity ile oyun geliştirme sertifikası</a></a>
-            </div>
-            <div class="sertifika">
-                <img src="img/talent.jpeg" alt="patika.dev">
-                <a href="https://globallycheck.com/CertificateRepo/TTC818DEAE7.jpg">TalentCoders TechCamp</a>
-            </div>
-        </div>
-    </div>
-    <div class="article-3" id="projeler">
-        <div class="display">Projeler</div>
-        <div class="project">
-            <div class="proj">
-                <img src="img/roulette.png" alt="roulette">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/Roulette_csharp" target="_blank">Rulet</a>
-                    <p>C# kullanarak yapmış olduğum rulet konsol projesi.</p>
-                </div>
-            </div>
-            <div class="proj">
-                <img src="img/portfolio.png" alt="">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/Portfolio" target="_blank">Portfölyo</a>
-                    <p>HTML ve CSS kullanarak basit bir portfölyo projesi</p>
-                </div>
-            </div>
-            <div class="proj">
-                <img src="img/minefield.png" alt="">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/Minefield_java" target="_blank">Mayın Tarlası</a>
-                    <p>Java kullanarak yapmış olduğum mayın tarlası projesi</p>
-                </div>
-            </div>
-            <div class="proj">
-                <img src="img/calculator.png" alt="">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/Calculator" target="_blank">Hesap Makinası</a>
-                    <p>jQuerry kullanarak yaptığım hesap makinası projesi</p>
-                </div>
-            </div>
-            <div class="proj">
-                <img src="img/game.png" alt="">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/TheGame" target="_blank">The Game</a>
-                    <p>Unity ve C# kullanarak yaptığım basit 2D oyun.</p>
-                </div>
-            </div>
-            <div class="proj">
-                <img src="img/target.png" alt="">
-                <div class="area">
-                    <a href="https://github.com/frkNynchr/AimTraining" target="_blank">Aim Training</a>
-                    <p>HTML ve JS ile basit bir aim çalışma oyunu.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="article-4" id="iletişim">
-        <div class="display">İletişim</div>
-        <div class="container">
-            <form action="https://api.web3forms.com/submit" method="POST" class="contleft">
-                <div class="contleftitle">
-                    <h2>Bağlantı kuralım</h2>
-                    <hr>
-                </div>
-                <input type="hidden" name="access_key" value="9a33c149-3b75-4814-a25f-c149719285aa">
-                <input type="text" name="name" class="inputs" placeholder="Adınız" required>
-                <input type="email" name="email" class="inputs" placeholder="Mail adresiniz" required>
-                <textarea name="message" class="inputs" placeholder="Mesajınız"></textarea>
-                <button type="submit">Gönder</button>
-            </form>
-            <div class="contright">
-                <img src="img/right-img.png" alt="">
-            </div>
-        </div>
-    </div>
-    <footer>
-        <div class="footer">
-            <h3>Furkan Sağsoyu</h3>
-            <div class="socials">
-                <ul>
-                    <li><a href="https://www.instagram.com/frknsgsy/" target="_blank"><img src=" img/insta.png"
-                                alt=""></a></li>
-                    <li><a href="https://github.com/frkNynchr" target="_blank"><img src="img/github.png" alt=""></a>
-                    </li>
-                    <li><a href="https://www.linkedin.com/in/furkansagsoyu/" target="_blank"><img src="img/linkedin.png"
-                                alt=""></a>
-                    </li>
-                </ul>
-            </div>
-            <p>Copyright©2024</p>
-        </div>
-    </footer>
-    <script src="script.js"></script>
+  </nav>
 
+  <header class="hero" id="top">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h1>Furkan Sağsoyu</h1>
+      <p class="lede">Bilgisayar mühendisi. Web, oyun ve mobil uygulamalar geliştiriyorum.</p>
+      <div class="btns">
+        <a class="btn primary" href="#projects">Projelere git</a>
+        <a class="btn" href="#contact">İletişim kur</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="projects">
+      <h2>Projeler</h2>
+      <p class="sub">Yaptığım projeler.</p>
+      <div class="spec">
+        <div><b>Tokat/Türkiye</b><span>Konum</span></div>
+        <div><b>4 yıl</b><span>Deneyim</span></div>
+        <div><b>Çalışmaya açık</b><span>Durum</span></div>
+        <div><b>&lt; 24 saat</b><span>Email dönme süresi</span></div>
+      </div>
+      <div class="proj">
+        <a class="card" href="https://github.com/furkansagsoyu/TheGame">
+          <h3>"The Game" Oyunu</h3>
+          <p>Okulda aldığımız kursta yapmış olduğum basit bir 2D oyun.</p>
+          <dl>
+            <dt>Teknolojiler</dt>
+            <dd>Unity, C#, AutoDesk Sketchbook</dd>
+            <dt>Yılı</dt>
+            <dd>2024</dd>
+          </dl>
+        </a>
+        <a class="card" href="#">
+          <h3>Mayın Tarlası</h3>
+          <p>Java ile yapmış olduğum konsol oyunu.</p>
+          <dl>
+            <dt>Teknolojiler</dt>
+            <dd>Java</dd>
+            <dt>Yılı</dt>
+            <dd>2024</dd>
+          </dl>
+        </a>
+        <a class="card" href="#">
+          <h3>Portfolyo</h3>
+          <p>Asp.NET ile yapmış olduğum kişisel site denemesi.</p>
+          <dl>
+            <dt>Teknolojiler</dt>
+            <dd>C#, HTML, CSS</dd>
+            <dt>Yılı</dt>
+            <dd>2025</dd>
+          </dl>
+        </a>
+      </div>
+    </section>
+
+    <section id="languages">
+      <h2>Programlama Dilleri</h2>
+      <p class="sub">Kullandığım programlama dilleri.</p>
+      <ul class="langs">
+        <li><svg viewBox="0 0 48 48" aria-hidden="true">
+            <polygon points="24,3 43,14 43,34 24,45 5,34 5,14" fill="#68217A" /><text x="24" y="30" text-anchor="middle"
+              font-size="18" font-weight="800" fill="#fff">C#</text>
+          </svg><span>C#</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M10 24h22v6a9 9 0 0 1-9 9h-4a9 9 0 0 1-9-9z" fill="#5382A1" />
+            <path d="M32 26h3a4 4 0 0 1 0 8h-3" fill="none" stroke="#5382A1" stroke-width="3" />
+            <path d="M17 20c-3-3 3-5 0-9M25 20c-3-3 3-5 0-9" fill="none" stroke="#E76F00" stroke-width="3"
+              stroke-linecap="round" />
+          </svg><span>Java</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="6" y="5" width="24" height="24" rx="9" fill="#3776AB" />
+            <rect x="18" y="19" width="24" height="24" rx="9" fill="#FFD43B" />
+            <circle cx="14" cy="13" r="2.2" fill="#fff" />
+            <circle cx="34" cy="35" r="2.2" fill="#3776AB" />
+          </svg><span>Python</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="4" y="4" width="40" height="40" rx="4" fill="#F7DF1E" /><text x="42" y="40" text-anchor="end"
+              font-size="19" font-weight="800" fill="#1a1a1a">JS</text>
+          </svg><span>JavaScript</span></li>
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <image href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" x="4" y="4"
+              width="40" height="40" />
+          </svg>
+          <span>Unity</span>
+        </li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M8 12v24c0 3.3 7.2 6 16 6s16-2.7 16-6V12z" fill="#4479A1" />
+            <ellipse cx="24" cy="12" rx="16" ry="6" fill="#7fb1d6" />
+            <path d="M8 22c0 3.3 7.2 6 16 6s16-2.7 16-6M8 30c0 3.3 7.2 6 16 6s16-2.7 16-6" fill="none" stroke="#7fb1d6"
+              stroke-width="2" />
+          </svg><span>SQL</span></li>
+      </ul>
+    </section>
+
+    <section id="education">
+      <h2>Eğitim</h2>
+      <p class="sub">Eğitim geçmişim.</p>
+      <ol class="tl">
+        <li>
+          <div class="when">2023 – Günümüz</div>
+          <h3>Bilgisayar Mühendilsiği, Tokat Gaziosmanpaşa Üniversitesi</h3>
+          <p>Lisans derecesi.</p>
+        </li>
+        <li>
+          <div class="when">2025 – 2026</div>
+          <h3>Erasmus, Politechnika Bydgoska</h3>
+          <p>Bir dönem boyunca eğitimime Polonya'da devam ettim.</p>
+        </li>
+        <li>
+          <div class="when">2021 – 2022</div>
+          <h3>Hazırlık, Tokat Gaziosmanpaşa Üniversitesi</h3>
+          <p>İsteğe bağlı İngilizce hazırlık okudum.</p>
+        </li>
+      </ol>
+      <p><a href="files/furkan_sagsoyu_cv.pdf">Download CV (PDF)</a></p>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>İletişim</h2>
+      <p>İsterseniz bir proje veya görev düşünüyorsanız, bana e-posta gönderin ve bir gün içinde cevap alacaksınız.</p>
+      <a class="big" href="mailto:furkansagsoyu@hotmail.com">furkansagsoyu@hotmail.com</a>
+      <div class="social">
+        <a href="https://github.com/furkansagsoyu" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://www.linkedin.com/in/furkansagsoyu/" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </section>
+    <footer>© 2026 Furkan Sağsoyu</footer>
+  </main>
+  <script>
+    (function () {
+      var c = document.getElementById('net'), x = c.getContext('2d'), hero = c.parentElement;
+      var W, H, dpr, pts = [], mouse = { x: -999, y: -999 }, still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function col(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim() }
+      function size() {
+        dpr = window.devicePixelRatio || 1; W = hero.clientWidth; H = hero.clientHeight;
+        c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var n = Math.min(90, Math.round(W * H / 14000)); pts = [];
+        for (var i = 0; i < n; i++)pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4 });
+        draw();
+      }
+      function draw() {
+        x.clearRect(0, 0, W, H);
+        var node = col('--node'), acc = col('--accent'), D = 120;
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          if (!still) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+          for (var j = i + 1; j < pts.length; j++) {
+            var q = pts[j], d = Math.hypot(p.x - q.x, p.y - q.y);
+            if (d < D) { x.globalAlpha = (1 - d / D) * .5; x.strokeStyle = node; x.lineWidth = 1; x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(q.x, q.y); x.stroke(); }
+          }
+          var m = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+          if (m < 170) { x.globalAlpha = (1 - m / 170) * .9; x.strokeStyle = acc; x.lineWidth = 1.5; x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(mouse.x, mouse.y); x.stroke(); }
+          x.globalAlpha = 1; x.fillStyle = m < 170 ? acc : node; x.fillRect(p.x - 2, p.y - 2, 4, 4);
+        }
+        if (!still) requestAnimationFrame(draw);
+      }
+      hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+      hero.addEventListener('pointerleave', function () { mouse.x = mouse.y = -999; });
+      window.addEventListener('resize', size);
+      size();
+    })();
+  </script>
 </body>
 
 </html>
