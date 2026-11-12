@@ -11,211 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
-<style>
-/* Bandanix masaüstü gibi: siyah zemin, bandana kırmızısı, yüzen adalar. Üstte Sound Island, altta panel adası. */
-:root{
-  --bg:#09090b;          /* masaüstü siyahı */
-  --island:#141417;      /* ada / pencere zemini */
-  --island-2:#1c1c20;    /* ada içi ikinci katman */
-  --line:#2a2a30;        /* ince kenar */
-  --text:#ededf0;
-  --muted:#9d9da8;
-  --red:#C8102E;         /* bandana kırmızısı (theme.toml) */
-  --red-hi:#ff3d55;      /* koyu zeminde okunan kırmızı yazı */
-  --red-edge:rgba(200,16,46,.35);
-  --f-ui:"Ubuntu",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"Ubuntu Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-  color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--f-ui);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-a{color:var(--red-hi)}
-a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--red-hi);outline-offset:3px}
-h1,h2,h3{text-wrap:balance}
-.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:68rem;margin:0 auto}
-
-/* ---------- HERO: duvar kağıdı ---------- */
-.hero{position:relative;min-height:min(46rem,100svh);display:flex;flex-direction:column;align-items:center;
-  background:#000 url("img/galata.jpg") center 40%/cover no-repeat;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(ellipse 60% 45% at 50% 48%,rgba(0,0,0,.55),transparent 70%),
-  linear-gradient(to bottom,rgba(0,0,0,.15),transparent 30%,transparent 70%,var(--bg));pointer-events:none}
-.hero>*{position:relative;z-index:1}
-
-/* Sound Island */
-.island-slot{height:13rem;width:100%;display:flex;justify-content:center;padding-top:1rem}
-.island{width:min(21rem,100%);height:2.75rem;background:var(--island);border:1px solid var(--red-edge);border-radius:1.4rem;
-  box-shadow:0 10px 40px rgba(0,0,0,.6);overflow:hidden;cursor:pointer;
-  transition:width .38s cubic-bezier(.3,1.3,.5,1),height .38s cubic-bezier(.3,1.3,.5,1),border-radius .3s}
-.island.open{width:min(28rem,100%);height:11rem;border-radius:1.25rem;cursor:default}
-.pill{display:flex;align-items:center;gap:.65rem;height:2.75rem;padding:0 .9rem 0 .45rem;transition:opacity .2s}
-.island.open .pill{opacity:0;height:0;pointer-events:none}
-.pill .cv{width:1.9rem;height:1.9rem;border-radius:.6rem;flex:none}
-.pill .t{flex:1;min-width:0;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pill .t b{font-weight:500}
-.bars{display:flex;gap:2px;align-items:center;height:14px;flex:none}
-.bars i{width:3px;background:var(--red-hi);border-radius:2px;height:40%;animation:eq 1s ease-in-out infinite alternate}
-.bars i:nth-child(2){animation-duration:.7s}.bars i:nth-child(3){animation-duration:1.15s}.bars i:nth-child(4){animation-duration:.85s}.bars i:nth-child(5){animation-duration:.95s}
-@keyframes eq{to{height:100%}}
-.paused .bars i{animation-play-state:paused}
-.player{padding:.85rem 1rem .7rem;opacity:0;transition:opacity .25s .1s}
-.island:not(.open) .player{display:none}
-.island.open .player{opacity:1}
-.p-top{display:grid;grid-template-columns:4.75rem 1fr auto;gap:.9rem;align-items:start}
-.cv{display:grid;place-items:center;background:linear-gradient(140deg,#3a0610,var(--red));color:#fff;font-weight:700}
-.p-top .cv{width:4.75rem;height:4.75rem;border-radius:.8rem;font-size:1.6rem}
-.p-meta{min-width:0}
-.p-meta h3{margin:.1rem 0 0;font-size:1.05rem;font-weight:700}
-.p-meta .sub{color:var(--muted);font-size:.85rem}
-.p-meta .lyric{color:var(--red-hi);font-size:.85rem;font-weight:500;margin-top:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prog{height:3px;background:#2c2c33;border-radius:2px;margin:.8rem 0 .1rem;overflow:hidden}
-.prog span{display:block;height:100%;width:0;background:var(--red)}
-.p-bot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.p-bot .r{text-align:right}
-.ctrl{display:flex;gap:.9rem;align-items:center}
-.ctrl button{background:none;border:0;color:var(--text);cursor:pointer;padding:.25rem;display:grid;place-items:center;border-radius:50%}
-.ctrl button svg{width:1rem;height:1rem;fill:currentColor}
-.ctrl .pp{background:#fff;color:#111;width:2rem;height:2rem}
-.ctrl button:hover{color:var(--red-hi)}
-.ctrl .pp:hover{color:var(--red)}
-
-/* İsim, Bandanix logosu gibi */
-.mark{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;padding-bottom:5.5rem}
-.star{width:min(15rem,70vw);height:auto;animation:shine 1.4s ease-out both}
-@keyframes shine{from{opacity:0;transform:scale(.6) rotate(-20deg)}}
-.name{margin:0;font-weight:300;font-size:clamp(1.55rem,5.4vw,3.4rem);letter-spacing:.42em;margin-right:-.42em;line-height:1.15;text-transform:uppercase}
-.name span{display:block}
-@media(min-width:44rem){.name span{display:inline}.name span+span::before{content:" "}}
-.checker{width:6.5rem;height:1.25rem;background:repeating-conic-gradient(var(--red) 0 25%,transparent 0 50%) 0 0/.625rem .625rem;opacity:.95}
-.lede{margin:.4rem 0 0;max-width:34rem;font-size:1.15rem;color:#d9d9de}
-.widget{color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
-.widget b{color:var(--text);font-weight:500}
-
-/* ---------- Bölümler ---------- */
-main{padding-bottom:7rem}
-section{padding-block:4.5rem 1rem;scroll-margin-top:1rem}
-.sec-h{display:flex;align-items:center;gap:.85rem;margin:0 0 .4rem}
-.sec-h svg{width:1.25rem;height:1.25rem;flex:none}
-h2{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:500;margin:0;letter-spacing:-.01em}
-.sec-sub{color:var(--muted);margin:0 0 2rem;max-width:40rem}
-
-/* Ada kartları */
-.grid{display:grid;gap:1.25rem;grid-template-columns:repeat(6,minmax(0,1fr))}
-.card{background:var(--island);border:1px solid var(--line);border-radius:1.25rem;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;min-width:0;
-  transition:border-color .2s,transform .2s}
-.card:hover{border-color:var(--red-edge);transform:translateY(-2px)}
-.c-jarvis{grid-column:span 6}
-.c-bandanix,.c-pomo{grid-column:span 3}
-.c-small{grid-column:span 3}
-@media(max-width:52rem){.c-bandanix,.c-pomo,.c-small{grid-column:span 6}}
-.card h3{margin:0;font-size:1.45rem;font-weight:700}
-.card .kind{color:var(--red-hi);font-size:.9rem;font-weight:500;margin:0}
-.card p{margin:0;color:#c9c9d0;max-width:40rem}
-.card ul.feat{margin:0;padding:0;list-style:none;display:grid;gap:.4rem;color:#c9c9d0}
-.card ul.feat li{padding-left:1.15rem;position:relative}
-.card ul.feat li::before{content:"";position:absolute;left:0;top:.6em;width:.45rem;height:.45rem;background:var(--red);transform:rotate(45deg)}
-.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto}
-.tags span{font-size:.8rem;padding:.2rem .65rem;border-radius:1rem;background:var(--island-2);border:1px solid var(--line);color:#d4d4da}
-.foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
-.gh{display:inline-flex;align-items:center;gap:.45rem;color:var(--text);text-decoration:none;font-weight:500}
-.gh svg{width:1rem;height:1rem;fill:currentColor}
-.gh:hover{color:var(--red-hi)}
-
-.jarvis-in{display:grid;gap:1.75rem;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
-@media(max-width:52rem){.jarvis-in{grid-template-columns:minmax(0,1fr)}}
-.jarvis-in>div{display:flex;flex-direction:column;gap:1rem;min-width:0}
-.voice{background:#0c0c0e;border:1px solid var(--line);border-radius:1rem;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;justify-content:space-between;min-height:15rem}
-.v-head{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
-.v-head .live{color:var(--red-hi);display:flex;gap:.4rem;align-items:center}
-.v-head .live::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--red-hi);animation:blink 1.4s infinite}
-@keyframes blink{50%{opacity:.25}}
-.wave{display:flex;align-items:center;justify-content:center;gap:3px;height:4.5rem}
-.wave i{flex:1;max-width:6px;border-radius:3px;background:var(--red);height:15%;animation:wv 1.1s ease-in-out infinite alternate}
-@keyframes wv{to{height:var(--h,80%)}}
-.chat{display:grid;gap:.45rem;font-size:.9rem}
-.chat .u{color:var(--muted)}
-.chat .a{color:var(--text)}
-.chat b{font-weight:500;color:var(--red-hi)}
-
-.shot{border-radius:.9rem;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;max-width:100%;background:#000}
-.shot img{display:block;width:100%;height:100%;object-fit:cover}
-.shot.sq{aspect-ratio:auto;display:flex;justify-content:center;background:#281323}
-.shot.sq img{width:auto;max-width:100%;height:auto;max-height:16rem;object-fit:contain}
-.parts{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
-.parts b{display:block;font-size:1.4rem;color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
-
-.pomo-vis{display:flex;align-items:center;gap:1.25rem;background:#0c0c0e;border:1px solid var(--line);border-radius:1rem;padding:1.1rem;flex-wrap:wrap}
-.ring{position:relative;width:8.5rem;height:8.5rem;flex:none}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring .tm{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:1.6rem;font-weight:300;font-variant-numeric:tabular-nums;line-height:1.1}
-.ring .tm small{display:block;font-size:.72rem;color:var(--muted);font-weight:400}
-.pomo-side{display:flex;flex-direction:column;gap:.6rem;min-width:min(12rem,100%);flex:1}
-.scan{font-size:.85rem;padding:.5rem .7rem;border-radius:.6rem;background:rgba(200,16,46,.12);border:1px solid var(--red-edge);color:#ffd0d6}
-.btn{appearance:none;font:inherit;font-size:.9rem;font-weight:500;padding:.5rem 1rem;border-radius:1.2rem;border:1px solid var(--red);background:var(--red);color:#fff;cursor:pointer;align-self:flex-start}
-.btn:hover{background:#a50d26}
-.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
-.btn.ghost:hover{border-color:var(--red-hi);color:var(--red-hi)}
-
-/* Diller */
-.langs{list-style:none;margin:0;padding:0;display:grid;gap:1rem;grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:40rem){.langs{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.langs li{background:var(--island);border:1px solid var(--line);border-radius:1.1rem;padding:1.25rem 1rem;display:flex;align-items:center;gap:.9rem;font-weight:500;transition:border-color .2s,color .2s}
-.langs li svg{width:2.25rem;height:2.25rem;flex:none;color:#d8d8de;transition:color .2s}
-.langs li:hover{border-color:var(--red-edge)}
-.langs li:hover svg{color:var(--red-hi)}
-
-/* Eğitim */
-.tl{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.tl li{display:grid;grid-template-columns:9.5rem 1.5rem minmax(0,1fr);gap:0 1rem;position:relative;padding-bottom:2rem}
-.tl .when{color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;padding-top:.1rem}
-.tl .dot{position:relative;display:flex;justify-content:center}
-.tl .dot::before{content:"";position:absolute;top:.55rem;bottom:-2rem;width:1px;background:var(--line)}
-.tl li:last-child .dot::before{display:none}
-.tl .dot svg{position:relative;width:1.1rem;height:1.1rem;margin-top:.3rem}
-.tl h3{margin:0;font-size:1.15rem;font-weight:500}
-.tl p{margin:.15rem 0 0;color:var(--muted)}
-@media(max-width:36rem){.tl li{grid-template-columns:1.5rem minmax(0,1fr)}.tl .when{grid-column:2;text-align:left;order:-1}.tl .dot{grid-row:1/3;grid-column:1}}
-
-/* İletişim */
-.contact{background:var(--island);border:1px solid var(--red-edge);border-radius:1.5rem;padding:clamp(1.5rem,4vw,2.75rem);display:grid;gap:1.25rem}
-.contact p{margin:0;color:var(--muted);max-width:36rem}
-.mail{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.mail a{font-size:clamp(1.25rem,4.4vw,2.3rem);font-weight:500;color:var(--text);text-decoration:none;word-break:break-all}
-.mail a:hover{color:var(--red-hi)}
-.links{display:flex;gap:.6rem;flex-wrap:wrap}
-.links a{display:inline-flex;align-items:center;gap:.55rem;padding:.6rem 1.1rem;border-radius:1.4rem;background:var(--island-2);border:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:500}
-.links a svg{width:1.15rem;height:1.15rem;fill:currentColor}
-.links a:hover{border-color:var(--red);color:var(--red-hi)}
-footer{display:flex;align-items:center;gap:.75rem;color:var(--muted);font-size:.85rem;padding-block:3rem 0}
-footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
-
-/* ---------- Panel adası (alt) ---------- */
-.panel{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;align-items:flex-end;gap:.6rem;pointer-events:none;
-  padding:0 max(16px,env(safe-area-inset-right,0px)) calc(.75rem + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.dock,.tray{pointer-events:auto;background:rgba(20,20,23,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 10px 30px rgba(0,0,0,.55);height:3.4rem;display:flex;align-items:center}
-.dock{gap:.2rem;padding:0 .4rem}
-.dock a{position:relative;width:2.75rem;height:2.75rem;display:grid;place-items:center;border-radius:.75rem;color:#d8d8de;text-decoration:none}
-.dock a svg{width:1.4rem;height:1.4rem}
-.dock a:hover,.dock a.on{background:var(--island-2);color:#fff}
-.dock a.on::after{content:"";position:absolute;bottom:.2rem;width:.9rem;height:3px;border-radius:2px;background:var(--red)}
-.dock a .tip{position:absolute;bottom:calc(100% + .6rem);left:50%;transform:translateX(-50%);background:var(--island);border:1px solid var(--line);padding:.2rem .6rem;border-radius:.5rem;font-size:.8rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
-.dock a:hover .tip,.dock a:focus-visible .tip{opacity:1}
-.dock .sep{width:1px;height:1.6rem;background:var(--line);margin:0 .25rem}
-.tray{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(.75rem + env(safe-area-inset-bottom,0px));gap:.9rem;padding:0 1rem;font-size:.85rem;font-variant-numeric:tabular-nums}
-.tray a{color:#d8d8de;display:grid}
-.tray a:hover{color:var(--red-hi)}
-.tray svg{width:1.05rem;height:1.05rem;fill:currentColor}
-@media(max-width:62rem){.tray{display:none}}
-
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .star,.bars i,.wave i,.v-head .live::before{animation:none}
-  .island,.card{transition:none}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <!-- Ortak ikon tanımları -->
@@ -253,7 +49,7 @@ footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
             <button type="button" id="bPlay" class="pp" aria-label="Duraklat"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
             <button type="button" id="bNext" aria-label="Sonraki proje"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5l11 7-11 7z"/></svg></button>
           </div>
-          <a class="r" id="pGo" href="#p-jarvis" style="color:var(--muted)">Projeye git</a>
+          <a class="r" id="pGo" href="jarvis/" style="color:var(--muted)">Projeye git</a>
         </div>
       </div>
     </div>
@@ -305,7 +101,7 @@ footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
             </div>
           </div>
         </div>
-        <div class="foot"><span>Konuşmayı anlama, düşünme ve seslendirme bilgisayarın içinde yapılır.</span><a class="gh" href="https://github.com/furkansagsoyu/jarvis"><svg aria-hidden="true"><use href="#i-gh"/></svg>furkansagsoyu/jarvis</a></div>
+        <div class="foot"><span>Konuşmayı anlama, düşünme ve seslendirme bilgisayarın içinde yapılır. <a href="jarvis/">Jarvis sayfası</a></span><a class="gh" href="https://github.com/furkansagsoyu/jarvis"><svg aria-hidden="true"><use href="#i-gh"/></svg>furkansagsoyu/jarvis</a></div>
       </article>
 
       <!-- BANDANIX -->
@@ -316,7 +112,7 @@ footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
         <p>Linux Mint için kendi masaüstü kitim. Tema, ikonlar, duvar kağıtları, Spotify'ı ekranın üstünde gösteren Sound Island ve hepsini tek pencereden yöneten Bandanix Ayarlar. Bu sitenin görünümü de buradan geliyor.</p>
         <div class="parts"><div><b>10</b>görünüm parçası</div><div><b>3</b>ada ve widget</div><div><b>5</b>araç</div></div>
         <div class="tags"><span>Python</span><span>GTK</span><span>Qt</span><span>Bash</span><span>Cinnamon</span></div>
-        <div class="foot"><span>Parçalar tek tek kurulabilir.</span><a class="gh" href="https://github.com/furkansagsoyu/bandanix"><svg aria-hidden="true"><use href="#i-gh"/></svg>bandanix</a></div>
+        <div class="foot"><span>Parçalar tek tek kurulabilir. <a href="bandanix/">Bandanix sayfası</a></span><a class="gh" href="https://github.com/furkansagsoyu/bandanix"><svg aria-hidden="true"><use href="#i-gh"/></svg>bandanix</a></div>
       </article>
 
       <!-- POMODORO -->
@@ -432,8 +228,8 @@ footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
 
   /* Sound Island: projeler arasında dönen "şimdi çalıyor" adası */
   var P=[
-    {g:'J',name:'Jarvis',sub:'Türkçe sesli asistan',line:'"Hey Jarvis, yarın 10\'a toplantı ekle."',href:'#p-jarvis'},
-    {g:'B',name:'Bandanix',sub:'Linux Mint masaüstü kiti',line:'./install.sh --all',href:'#p-bandanix'},
+    {g:'J',name:'Jarvis',sub:'Türkçe sesli asistan',line:'"Hey Jarvis, yarın 10\'a toplantı ekle."',href:'jarvis/'},
+    {g:'B',name:'Bandanix',sub:'Linux Mint masaüstü kiti',line:'./install.sh --all',href:'bandanix/'},
     {g:'P',name:'Dev Pomodoro',sub:'Yazılımcılar için odak zamanlayıcısı',line:'Masada telefon var, kaldırmak ister misin?',href:'#p-pomodoro'}
   ];
   var isl=document.getElementById('island'),i=0,prog=0,playing=!still,DUR=7000,last=performance.now();
