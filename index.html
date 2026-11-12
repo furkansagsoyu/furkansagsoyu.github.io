@@ -142,6 +142,8 @@ h2{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:500;margin:0;letter-spacing:
 
 .shot{border-radius:.9rem;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;max-width:100%;background:#000}
 .shot img{display:block;width:100%;height:100%;object-fit:cover}
+.shot.sq{aspect-ratio:auto;display:flex;justify-content:center;background:#281323}
+.shot.sq img{width:auto;max-width:100%;height:auto;max-height:16rem;object-fit:contain}
 .parts{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
 .parts b{display:block;font-size:1.4rem;color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
 
@@ -340,12 +342,13 @@ footer .checker{width:3rem;height:.75rem;background-size:.375rem .375rem}
       </article>
 
       <!-- KÜÇÜKLER -->
-      <article class="card c-small">
-        <p class="kind">Oyun · 2024</p>
-        <h3>"The Game"</h3>
-        <p>Okulda aldığımız kursta yaptığım basit bir 2D oyun. Çizimleri de kendim yaptım.</p>
-        <div class="tags"><span>Unity</span><span>C#</span><span>Autodesk Sketchbook</span></div>
-        <div class="foot"><span></span><a class="gh" href="https://github.com/furkansagsoyu/TheGame"><svg aria-hidden="true"><use href="#i-gh"/></svg>TheGame</a></div>
+      <article class="card c-small" id="p-uvaia">
+        <p class="kind">Linux aracı · 2026</p>
+        <h3>Uvaia</h3>
+        <div class="shot sq"><img src="img/uvaia.png" alt="Uvaia ana penceresi: dosya bırakma alanı ve Görsel, PDF, Video, Ses, Arşiv sekmeleri" loading="lazy"></div>
+        <p>Linux Mint için yerel, sürükle-bırak dosya dönüştürme aracı. Görsel, PDF, video, ses ve arşiv işlemleri tek pencerede: format dönüştürme, kırpma, sıkıştırma, PDF birleştirme ve bölme, yerel OCR, QR okuma. Nemo'nun sağ tık menüsüne eklenir.</p>
+        <div class="tags"><span>Python</span><span>FFmpeg</span><span>Tesseract OCR</span><span>Cinnamon</span></div>
+        <div class="foot"><span>Hepsi bilgisayarında çalışır.</span><a class="gh" href="https://github.com/furkansagsoyu/uvaia"><svg aria-hidden="true"><use href="#i-gh"/></svg>uvaia</a></div>
       </article>
       <article class="card c-small">
         <p class="kind">Web · 2025</p>
